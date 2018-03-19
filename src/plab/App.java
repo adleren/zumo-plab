@@ -19,7 +19,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Zumo UI");
         stage.setScene(scene);
         stage.show();
