@@ -15,14 +15,20 @@ int leftMotorSpeed = 100;
 int rightMotorSpeed = 100;
 
 // These might need to be tuned for different motor types.
-#define REVERSE_SPEED     200  // 0 is stopped, 400 is full speed
-#define TURN_SPEED        150
-#define FORWARD_SPEED     300
+#define REVERSE0_SPEED     200  // 0 is stopped, 400 is full speed
+int TURN_SPEED = 150;
+int FORWARD_SPEED = 300;
 #define REVERSE_DURATION  200  // ms
 #define TURN_DURATION     400  // ms
 
 
+//Bluetooth del
+#include <SoftwareSerial.h>
 
+#define rxPin2 //Connect this to pin RXD on the BT unit
+#define txPin3 //Connect this to pin TXD on the BT unit
+
+SoftwareSerial btSerial(txPin, rxPin);
 
 
 #define NUM_SENSORS 6
@@ -36,10 +42,30 @@ void waitForButtonAndCountDown()
 void setup() {
    waitForButtonAndCountDown();
    lineSensors.init();
+
+   //Bluetooth
+   Serial.begin(9600);
+   btSerial.begin(9600);
 }
 
+void readCommand(){
+  while (btSerial.available()) {
+      char c = btSerial.read();
+      Serial.write(c);
+    };
+    while (Serial.available()) {
+      char c = Serial.read();
+      btSerial.write(c);
+    };    
+}
+
+
 void loop() {
-   if (button.isPressed())
+  //Bluetooth del
+  readCommand();
+
+  //Zumo del
+  if (button.isPressed())
   {
     // If button is pressed, stop and wait for another press to
     // go again.
