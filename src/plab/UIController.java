@@ -111,7 +111,8 @@ public class UIController {
 		for (String line : serialManager.getCommLog()) {
 			log += line + "\n";
 		}
-		logArea.setText(log);
+		logArea.setText("");
+		logArea.appendText(log);
 	}
 	
 	@FXML

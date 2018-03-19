@@ -77,9 +77,6 @@ public class SerialManager {
 		} else if (parsedResponse == 0x0f /* NAK */) {
 			System.out.println("Received NAK");
 			commLog.add("B: NAK");
-			String command = lastPayload.substring(0, lastPayload.indexOf(':'));
-			int value = Integer.parseInt(lastPayload.substring(lastPayload.indexOf(':') + 1, lastPayload.length() - 1));
-			write(new SerialCommand(command, value));
 		} else {
 			System.out.println("Got bullshit. Terminating...");
 			destroy();
