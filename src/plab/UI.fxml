@@ -139,7 +139,7 @@
    <right>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="logArea" prefHeight="248.0" prefWidth="100.0" />
+            <TextArea fx:id="logArea" editable="false" prefHeight="248.0" prefWidth="100.0" />
             <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#onClearPressed" text="Clear" />
          </children>
       </VBox>
