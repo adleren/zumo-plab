@@ -19,7 +19,7 @@ int rightMotorSpeed = 100;
 #define TURN_SPEED        150
 #define FORWARD_SPEED     300
 #define REVERSE_DURATION  200  // ms
-#define TURN_DURATION     300  // ms
+#define TURN_DURATION     400  // ms
 
 
 
