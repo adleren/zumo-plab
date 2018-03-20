@@ -1,7 +1,16 @@
+#include <SoftwareSerial.h>
 #include <ZumoMotors.h>
 #include <Pushbutton.h>
 #include <ZumoReflectanceSensorArray.h>
 #include <QTRSensors.h>
+
+#define ACK 0x01
+#define NAK 0x0f
+#define BT_TX_PIN 2
+#define BT_RX_PIN 3
+#define NUM_SENSORS 6
+
+unsigned int lineSensorValues[NUM_SENSORS];
 
 ZumoMotors motors;
 ZumoReflectanceSensorArray lineSensors;
@@ -21,33 +30,56 @@ int FORWARD_SPEED = 300;
 int REVERSE_DURATION = 200;  // ms
 int TURN_DURATION = 400;  // ms
 
-#define ACK 0x01
-#define NAK 0x0f
 
-//Bluetooth del
-#include <SoftwareSerial.h>
-
-#define BT_TX_PIN 10 //Connect this to pin RXD on the BT unit
-#define BT_RX_PIN 11 //Connect this to pin TXD on the BT unit
 SoftwareSerial btSerial(BT_TX_PIN, BT_RX_PIN);
 String btBuffer = "";
 
-#define NUM_SENSORS 6
-unsigned int lineSensorValues[NUM_SENSORS];
-
-void waitForButtonAndCountDown()
-{
-  // button.waitForButton();
-}
 
 void setup() {
+  //waitForButtonAndCountDown();  // No good. REDO!
+  //lineSensors.init();
+  
   Serial.begin(9600);
   btSerial.begin(9600);
-
-  waitForButtonAndCountDown();  // No good. REDO!
-  lineSensors.init();
 }
 
+
+void loop() {
+/*
+  if (button.isPressed()) {
+    motors.setSpeeds(0, 0);
+    //button.waitForRelease();
+    //waitForButtonAndCountDown();
+  }
+*/
+/*
+  lineSensors.read(lineSensorValues);
+  if (lineSensorValues[0] < QTR_THRESHOLD) {
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  } else {
+    // Otherwise, go straight.
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  }
+*/
+  if (btSerial.available() > 0) {
+    readCommand();
+  }
+}
+
+
+void waitForButtonAndCountDown() {
+  button.waitForButton();
+}
 
 void readCommand() {
   String input = btBuffer;
@@ -95,7 +127,6 @@ void readCommand() {
   printParameters();
 }
 
-
 void printParameters() {
   Serial.println("--------------");
   Serial.println("RS " + String(REVERSE_SPEED));
@@ -107,39 +138,8 @@ void printParameters() {
 }
 
 
-void loop() {
-  if (btSerial.available()) {
-    readCommand();
-  }
 
-/*
-  if (button.isPressed()) {
-    motors.setSpeeds(0, 0);
-    button.waitForRelease();
-    waitForButtonAndCountDown();
-  }
-*/
-/*
-  lineSensors.read(lineSensorValues);
 
-  if (lineSensorValues[0] < QTR_THRESHOLD) {
-    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-    delay(REVERSE_DURATION);
-    motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-    delay(TURN_DURATION);
-    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-  } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
-    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-    delay(REVERSE_DURATION);
-    motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
-    delay(TURN_DURATION);
-    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-  } else {
-    // Otherwise, go straight.
-    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-  }
-*/
-}
 
 
 
