@@ -1,5 +1,7 @@
 /**
- * 
+ * @author Adrian Leren
+ *
+ * Main entry-point for JavaFX UI 
  */
 package plab;
 
@@ -9,11 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * @author Adrian Leren
- *
- * Main entry-point for JavaFX UI 
- */
 public class App extends Application {
 
 	@Override

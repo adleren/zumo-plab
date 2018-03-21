@@ -1,3 +1,8 @@
+/**
+ * @author Adrian Leren
+ *
+ * Controller class for this JavaFX UI application 
+ */
 package plab;
 
 import java.util.ArrayList;

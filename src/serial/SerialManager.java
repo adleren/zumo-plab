@@ -1,3 +1,8 @@
+/**
+ * @author Adrian Leren
+ *
+ * Manager class that handles serial communication with a serial port.
+ */
 package serial;
 
 import java.io.PrintWriter;
@@ -8,13 +13,19 @@ import com.fazecast.jSerialComm.SerialPort;
 
 public class SerialManager {
 	
+	/* Private fields */
 	private SerialPort port;
 	private String lastPayload;
 	private int retransmits;
-	
 	private List<String> commLog;
 	
-	public void openPort(int index) {
+	/**
+	 * Open serial port based on its index in the array collected from SerialPort.getCommPorts().
+	 * 
+	 * @param index of port in array collected from SerialPort.getCommPorts()
+	 * @return 'true' if port was opened successfully
+	 */
+	public boolean openPort(int index) {
 		this.port = SerialPort.getCommPorts()[index];
 		port.setBaudRate(9600);
 		
@@ -25,11 +36,16 @@ public class SerialManager {
 		if (port.openPort()) {
 			System.out.println("Successfully opened port at " + port.getDescriptivePortName());
 			write(new SerialCommand("HI", 0));
-		} else {
-			System.err.println("Failed to open port '" + port.getDescriptivePortName() + "'");
-		}
+			return true;
+		} 
+		System.err.println("Failed to open port '" + port.getDescriptivePortName() + "'");
+		return false;
 	}
 	
+	
+	/**
+	 * Deconstructor. Removes listeners and closes opened port if any.
+	 */
 	public void destroy() {
 		port.removeDataListener();
 		port.closePort();
@@ -38,22 +54,47 @@ public class SerialManager {
 		System.out.println("SerialManager was destroyed...");
 	}
 	
+	/**
+	 * Gets the communication log.
+	 * 
+	 * @return Communication log
+	 */
 	public List<String> getCommLog() {
 		return this.commLog;
 	}
 	
+	
+	/**
+	 * Clears the communication log
+	 */
 	public void clearCommLog() {
 		this.commLog = new ArrayList<>();
 	}
 	
+	
+	/**
+	 * Checks if this manager is ready to read/write data to port.
+	 * 
+	 * @return 'true' if manager is ready.
+	 */
 	public boolean isReady() {
 		return port != null && port.isOpen();
 	}
 	
+	
+	/**
+	 * @return The selected port, or null.
+	 */
 	public SerialPort getPort() {
 		return this.port;
 	}
 	
+	
+	/**
+	 * Write data to port if possible.
+	 * 
+	 * @param sc The serial command to write.
+	 */
 	public void write(SerialCommand sc) {
 		if (!isReady())
 			return;
@@ -74,6 +115,12 @@ public class SerialManager {
 		commLog.add("A: " + lastPayload);
 	}
 	
+	
+	/**
+	 * Upon receiving a response, parse this response and act appropriately.
+	 * 
+	 * @param response The received response.
+	 */
 	public void parseResponse(byte[] response) {
 		int parsedResponse = (int) response[0];
 		if (parsedResponse == 0x01 /* ACK */) {
