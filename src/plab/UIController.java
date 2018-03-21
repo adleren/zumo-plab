@@ -28,9 +28,7 @@ public class UIController {
 
 	@FXML Button connectBtn;
 	@FXML Button sendBtn;
-	
 	@FXML Button clearBtn;
-	
 	@FXML Button presetBtn1;
 	@FXML Button presetBtn2;
 	@FXML Button presetBtn3;
@@ -163,22 +161,22 @@ public class UIController {
 	
 	@FXML
 	public void onPresetBtn1Pressed() {
-		
+		commandField.setText("ST:1#");
 	}
 	
 	@FXML
 	public void onPresetBtn2Pressed() {
-		
+		commandField.setText("ST:2#");
 	}
 	
 	@FXML
 	public void onPresetBtn3Pressed() {
-		
+		commandField.setText("ST:3#");
 	}
 	
 	@FXML
 	public void onPresetBtn4Pressed() {
-		
+		commandField.setText("ST:4#");
 	}
 
 }

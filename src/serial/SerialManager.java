@@ -10,11 +10,15 @@ public class SerialManager {
 	
 	private SerialPort port;
 	private String lastPayload;
+	private int retransmits;
+	
 	private List<String> commLog;
 	
 	public void openPort(int index) {
 		this.port = SerialPort.getCommPorts()[index];
 		port.setBaudRate(9600);
+		
+		this.retransmits = 0;
 		
 		commLog = new ArrayList<>();
 		
@@ -29,6 +33,7 @@ public class SerialManager {
 	public void destroy() {
 		port.removeDataListener();
 		port.closePort();
+		retransmits = 0;
 		clearCommLog();
 		System.out.println("SerialManager was destroyed...");
 	}
@@ -74,9 +79,17 @@ public class SerialManager {
 		if (parsedResponse == 0x01 /* ACK */) {
 			System.out.println("Received ACK");
 			commLog.add("B: ACK");
-		} else if (parsedResponse == 0x0f /* NAK */) {
+		} else if (parsedResponse == 0x0f /* NAK */ && retransmits < 3) {
 			System.out.println("Received NAK");
 			commLog.add("B: NAK");
+			
+			try {
+				Thread.sleep(1000);
+				write(new SerialCommand(lastPayload));
+				retransmits++;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		} else {
 			System.out.println("Got bullshit. Terminating...");
 			destroy();

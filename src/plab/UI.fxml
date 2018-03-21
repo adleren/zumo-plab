@@ -83,10 +83,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="presetBtn1" mnemonicParsing="false" prefHeight="54.0" prefWidth="60.0" text="1" GridPane.rowIndex="1" />
-            <Button fx:id="presetBtn2" mnemonicParsing="false" prefHeight="54.0" prefWidth="60.0" text="2" GridPane.rowIndex="2" />
-            <Button fx:id="presetBtn3" mnemonicParsing="false" prefHeight="54.0" prefWidth="60.0" text="3" GridPane.rowIndex="3" />
-            <Button fx:id="presetBtn4" mnemonicParsing="false" prefHeight="54.0" prefWidth="60.0" text="4" GridPane.rowIndex="4" />
+            <Button fx:id="presetBtn1" mnemonicParsing="false" onAction="#onPresetBtn1Pressed" prefHeight="54.0" prefWidth="60.0" text="1" GridPane.rowIndex="1" />
+            <Button fx:id="presetBtn2" mnemonicParsing="false" onAction="#onPresetBtn2Pressed" prefHeight="54.0" prefWidth="60.0" text="2" GridPane.rowIndex="2" />
+            <Button fx:id="presetBtn3" mnemonicParsing="false" onAction="#onPresetBtn3Pressed" prefHeight="54.0" prefWidth="60.0" text="3" GridPane.rowIndex="3" />
+            <Button fx:id="presetBtn4" mnemonicParsing="false" onAction="#onPresetBtn4Pressed" prefHeight="54.0" prefWidth="60.0" text="4" GridPane.rowIndex="4" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Presets">
                <font>
                   <Font name="Courier New Bold" size="14.0" />
