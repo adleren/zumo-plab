@@ -38,14 +38,14 @@ int FORWARD_SPEED = 300;
 int REVERSE_DURATION = 200;  // ms
 int TURN_DURATION = 400;  // ms
 
-int STRATEGY = 1;
-
 
 SoftwareSerial btSerial(BT_TX_PIN, BT_RX_PIN);
 String btBuffer = "";
 
 
 void setup() {
+  int state = LISTEN;
+  
   lineSensors.init();
 
   pinMode(LISTEN_LED, OUTPUT);
@@ -71,8 +71,7 @@ void loop() {
   }
 
   if (state == OPERATE) {
-    lineSensors.read(lineSensorValues);
-    executeStrategy(STRATEGY);
+    executeStrategy();
   } else if (state == LISTEN) {
     if (btSerial.available() > 0) {
       readCommand();
@@ -140,21 +139,45 @@ void readCommand() {
 
 boolean setStrategy(int strategy) {
   switch(strategy) {
+  
+  // Default
   case 1:
-    STRATEGY = 1;
-    // Modify variables, then return
+    REVERSE_SPEED = 200;
+    TURN_SPEED = 150;
+    FORWARD_SPEED = 300;
+    REVERSE_DURATION = 200;
+    TURN_DURATION = 400;
+
     return true;
+
+  // Full pupp
   case 2:
-    STRATEGY = 2;
-    // Modify variables, then return
+    REVERSE_SPEED = 400;
+    TURN_SPEED = 400;
+    FORWARD_SPEED = 400;
+    REVERSE_DURATION = 500;
+    TURN_DURATION = 500;
+    
     return true;
+
+  // Idk...
   case 3:
-    STRATEGY = 3;
-    // Modify variables, then return
+    REVERSE_SPEED = 400;
+    TURN_SPEED = 200;
+    FORWARD_SPEED = 150;
+    REVERSE_DURATION = 250;
+    TURN_DURATION = 150;
+    
     return true;
+
+  // Slow poke
   case 4:
-    STRATEGY = 4;
-    // Modify variables, then return
+    REVERSE_SPEED = 50;
+    TURN_SPEED = 200;
+    FORWARD_SPEED = 50;
+    REVERSE_DURATION = 200;
+    TURN_DURATION = 500;
+    
     return true;
   }
   return false;
@@ -171,91 +194,24 @@ void printParameters() {
 }
 
 
-void executeStrategy(int strategy) {
-  switch(strategy) {
-  // STRATEGY 1
-  case 1:
-    if (lineSensorValues[0] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else {
-      // Otherwise, go straight.
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    break;
-
-  // STRATEGY 2
-  case 2:
-    if (lineSensorValues[0] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else {
-      // Otherwise, go straight.
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    break;
-
-  // STRATEGY 3
-  case 3:
-    if (lineSensorValues[0] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else {
-      // Otherwise, go straight.
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    break;
-
-  // STRATEGY 4
-  case 4:
-    if (lineSensorValues[0] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    } else {
-      // Otherwise, go straight.
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    break;
-
-  // Strategy is broken. Do nothing...
-  default:
-    return;
+void executeStrategy() {
+  // Read line sensors
+  lineSensors.read(lineSensorValues);
+  if (lineSensorValues[0] < QTR_THRESHOLD) {
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  } else if (lineSensorValues[NUM_SENSORS - 1] < QTR_THRESHOLD) {
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  } else {
+    // Otherwise, go straight.
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
   }
 }
 

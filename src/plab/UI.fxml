@@ -71,25 +71,49 @@
       </GridPane>
    </center>
    <left>
-      <GridPane alignment="CENTER" prefHeight="273.0" prefWidth="76.0" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" prefHeight="282.0" prefWidth="76.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="33.0" minHeight="7.0" prefHeight="18.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="presetBtn1" mnemonicParsing="false" onAction="#onPresetBtn1Pressed" prefHeight="54.0" prefWidth="60.0" text="1" GridPane.rowIndex="1" />
-            <Button fx:id="presetBtn2" mnemonicParsing="false" onAction="#onPresetBtn2Pressed" prefHeight="54.0" prefWidth="60.0" text="2" GridPane.rowIndex="2" />
-            <Button fx:id="presetBtn3" mnemonicParsing="false" onAction="#onPresetBtn3Pressed" prefHeight="54.0" prefWidth="60.0" text="3" GridPane.rowIndex="3" />
-            <Button fx:id="presetBtn4" mnemonicParsing="false" onAction="#onPresetBtn4Pressed" prefHeight="54.0" prefWidth="60.0" text="4" GridPane.rowIndex="4" />
+            <Button fx:id="presetBtn2" mnemonicParsing="false" onAction="#onPresetBtn2Pressed" prefHeight="54.0" prefWidth="60.0" text="2" GridPane.rowIndex="3" />
+            <Button fx:id="presetBtn3" mnemonicParsing="false" onAction="#onPresetBtn3Pressed" prefHeight="54.0" prefWidth="60.0" text="3" GridPane.rowIndex="5" />
+            <Button fx:id="presetBtn4" mnemonicParsing="false" onAction="#onPresetBtn4Pressed" prefHeight="54.0" prefWidth="60.0" text="4" GridPane.rowIndex="7" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Presets">
                <font>
                   <Font name="Courier New Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Default" wrappingWidth="53.21875" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Courier New" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Full pupp" wrappingWidth="68.6083984375" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Courier New" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IDK" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Courier New" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Slow poke" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Courier New" size="12.0" />
                </font>
             </Text>
          </children>
